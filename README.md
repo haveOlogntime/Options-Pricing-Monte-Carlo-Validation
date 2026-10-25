@@ -1,18 +1,61 @@
 # Options Pricing and Hedging Lab
 
-A small quantitative-finance project focused on European option pricing, Monte Carlo estimation, and model validation.
+A Python project for studying European option prices and Monte Carlo estimation under the Black–Scholes model. The current implementation compares simulation estimators with the analytical price and records how estimates and uncertainty change with the number of simulated paths.
 
-This first version covers option pricing and statistical checks. A discrete delta-hedging experiment is planned as a follow-up.
+## Implemented
 
-## What's in here
-
-- Black-Scholes prices for European calls and puts (no dividends).
+- Black–Scholes prices for European calls and puts, assuming no dividends.
 - Delta, Gamma, Vega and Theta.
-- Plain Monte Carlo, antithetic variates and a control variate.
-- Standard errors, approximate 95% confidence intervals and convergence plots.
-- Unit tests for pricing identities, Greeks and repeatability.
+- Monte Carlo pricing with plain sampling, antithetic variates and a control variate.
+- Estimated standard errors and approximate 95% confidence intervals.
+- Reproducible experiments, CSV output, convergence plots and unit tests.
+
+The repository currently focuses on pricing and estimator diagnostics. A discrete-time delta-hedging simulation, implied-volatility solver and volatility-surface analysis are not implemented yet.
+
+## Model
+
+The underlying follows risk-neutral geometric Brownian motion,
+
+\[
+dS_t = rS_t\,dt + \sigma S_t\,dW_t,
+\]
+
+with constant interest rate \(r\), volatility \(\sigma\), and no dividends. The option is European, so its value is the discounted risk-neutral expectation of its terminal payoff.
+
+The implementation uses the analytical Black–Scholes price as a benchmark. The Monte Carlo estimators are:
+
+- **Plain sampling:** averages discounted terminal payoffs.
+- **Antithetic variates:** pairs draws \(Z\) and \(-Z\) and averages each pair's payoff.
+- **Control variate:** adjusts the discounted payoff using the discounted terminal stock price, whose expectation is \(S_0\) under this model.
+
+For antithetic sampling, the reported standard error is calculated from the pair averages. Confidence intervals use a normal approximation. The control-variate coefficient is estimated from the simulated sample.
+
+## Baseline experiment
+
+The runner uses an at-the-money European call with these inputs:
+
+| Parameter | Value |
+| --- | ---: |
+| Initial stock price | 100 |
+| Strike | 100 |
+| Time to expiry | 1 year |
+| Risk-free rate | 3% |
+| Volatility | 25% |
+| Monte Carlo paths | 100,000 |
+
+The analytical Black–Scholes price is approximately **11.348477**. With the fixed seed in the script, the Monte Carlo comparison is:
+
+| Estimator | Price estimate | Estimated standard error | Absolute error |
+| --- | ---: | ---: | ---: |
+| Plain | 11.375566 | 0.056717 | 0.027089 |
+| Antithetic variates | 11.338172 | 0.043592 | 0.010305 |
+| Control variate | 11.373839 | 0.022965 | 0.025362 |
+
+These figures describe one run, not a general ranking of the estimators. The convergence experiment also uses one seed per path count, so absolute error need not decrease monotonically. Repeated independent runs are needed for a more reliable comparison of estimator variance.
 
 ## Setup
+
+Requires Python 3.10 or later.
 
 ```bash
 python3 -m venv .venv
@@ -20,58 +63,35 @@ source .venv/bin/activate
 python -m pip install -r requirements.txt
 ```
 
-On Windows, activate the environment with `.venv\\Scripts\\activate` instead.
+On Windows, activate the environment with:
 
-## Run it
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+## Run
+
+Generate the CSV files and SVG plots:
 
 ```bash
-python run_day1.py
+python run_experiments.py
+```
+
+Run the test suite:
+
+```bash
 python -m pytest -q
 ```
 
-The script prints the baseline option price and Greeks, then saves results and plots in `results/`.
+## Results
 
-## Baseline setup
-
-The example uses an at-the-money European call with:
-
-| Input | Value |
-|---|---:|
-| Stock price | 100 |
-| Strike | 100 |
-| Time to expiry | 1 year |
-| Risk-free rate | 3% |
-| Volatility | 25% |
-
-The Black-Scholes call price is approximately `11.348477`.
-
-## Results from the Day 1 run
-
-The CSV files contain the estimator outputs, estimated standard errors and confidence intervals:
-
-- [Monte Carlo comparison](results/monte_carlo_comparison.csv)
+- [Monte Carlo estimator comparison](results/monte_carlo_comparison.csv)
 - [Convergence experiment data](results/mc_convergence.csv)
+- [Absolute pricing error by path count](results/mc_absolute_error.svg)
+- [Estimated standard error by path count](results/mc_standard_error.svg)
 
-The plots below show one random seed per path count. They're useful for inspecting the behaviour, but one run isn't enough to rank methods reliably.
+Running the experiment script overwrites these result files.
 
-![Monte Carlo absolute error](results/mc_absolute_error.svg)
+## Assumptions and limitations
 
-![Monte Carlo estimated standard error](results/mc_standard_error.svg)
-
-## Methods
-
-Plain Monte Carlo averages discounted option payoffs from simulated terminal stock prices.
-
-Antithetic variates use pairs of normal draws `z` and `-z`. Control variates use the discounted terminal stock price, whose expected value is the current stock price in this model.
-
-The confidence intervals use a normal approximation. The convergence plots use one seed at each path count, so absolute error can jump around. These plots are a first look, not enough to claim one method is always better. A repeated-seed comparison should be used before drawing that conclusion.
-
-## Assumptions and limits
-
-The model uses risk-neutral geometric Brownian motion, a constant interest rate, constant volatility, European exercise and no dividends. It does not use real market data and should not be treated as a trading strategy. Transaction costs, calibration, early exercise and stochastic volatility are not part of this first version.
-
-## Questions to investigate next
-
-1. Which estimator has the lowest standard error for this option and path budget?
-2. Does the result hold across many independent seeds?
-3. How do hedge frequency and transaction costs change hedging P&L?
+The model assumes constant volatility and interest rates, risk-neutral geometric Brownian motion, European exercise and no dividends. It does not use market data or include calibration, early exercise, stochastic volatility, transaction costs or a hedging simulation. The results are for numerical study and are not a trading strategy.
