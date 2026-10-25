@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="480" viewBox="0 0 840 480">
+<rect width="100%" height="100%" fill="#fff"/>
+<text x="420" y="30" text-anchor="middle" font-family="Arial,sans-serif" font-size="21" font-weight="600" fill="#111827">Illustrative implied-volatility surface</text>
+<text x="420" y="53" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#374151">Recovered from synthetic option quotes; not market data</text>
+<text x="166" y="334" text-anchor="end" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#374151">0.25</text>
+<rect x="190" y="300" width="86" height="61" rx="3" fill="rgb(103,173,221)"/>
+<text x="233" y="332" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#111827">26.72%</text>
+<rect x="280" y="300" width="86" height="61" rx="3" fill="rgb(156,201,234)"/>
+<text x="323" y="332" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#111827">24.19%</text>
+<rect x="370" y="300" width="86" height="61" rx="3" fill="rgb(187,217,241)"/>
+<text x="413" y="332" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#111827">22.75%</text>
+<rect x="460" y="300" width="86" height="61" rx="3" fill="rgb(200,225,244)"/>
+<text x="503" y="332" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#111827">22.11%</text>
+<rect x="550" y="300" width="86" height="61" rx="3" fill="rgb(201,225,245)"/>
+<text x="593" y="332" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#111827">22.09%</text>
+<text x="166" y="269" text-anchor="end" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#374151">0.5</text>
+<rect x="190" y="235" width="86" height="61" rx="3" fill="rgb(96,170,220)"/>
+<text x="233" y="267" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#111827">27.03%</text>
+<rect x="280" y="235" width="86" height="61" rx="3" fill="rgb(150,198,232)"/>
+<text x="323" y="267" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#111827">24.50%</text>
+<rect x="370" y="235" width="86" height="61" rx="3" fill="rgb(180,214,240)"/>
+<text x="413" y="267" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#111827">23.06%</text>
+<rect x="460" y="235" width="86" height="61" rx="3" fill="rgb(194,221,243)"/>
+<text x="503" y="267" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#111827">22.43%</text>
+<rect x="550" y="235" width="86" height="61" rx="3" fill="rgb(194,221,243)"/>
+<text x="593" y="267" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#111827">22.40%</text>
+<text x="166" y="204" text-anchor="end" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#374151">1</text>
+<rect x="190" y="170" width="86" height="61" rx="3" fill="rgb(87,165,218)"/>
+<text x="233" y="202" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#111827">27.47%</text>
+<rect x="280" y="170" width="86" height="61" rx="3" fill="rgb(141,193,230)"/>
+<text x="323" y="202" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#111827">24.94%</text>
+<rect x="370" y="170" width="86" height="61" rx="3" fill="rgb(171,209,238)"/>
+<text x="413" y="202" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#111827">23.50%</text>
+<rect x="460" y="170" width="86" height="61" rx="3" fill="rgb(185,216,241)"/>
+<text x="503" y="202" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#111827">22.86%</text>
+<rect x="550" y="170" width="86" height="61" rx="3" fill="rgb(185,216,241)"/>
+<text x="593" y="202" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#111827">22.84%</text>
+<text x="166" y="139" text-anchor="end" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#374151">2</text>
+<rect x="190" y="105" width="86" height="61" rx="3" fill="rgb(74,158,215)"/>
+<text x="233" y="137" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#111827">28.10%</text>
+<rect x="280" y="105" width="86" height="61" rx="3" fill="rgb(128,186,227)"/>
+<text x="323" y="137" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#111827">25.56%</text>
+<rect x="370" y="105" width="86" height="61" rx="3" fill="rgb(158,202,234)"/>
+<text x="413" y="137" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#111827">24.12%</text>
+<rect x="460" y="105" width="86" height="61" rx="3" fill="rgb(171,209,238)"/>
+<text x="503" y="137" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#111827">23.49%</text>
+<rect x="550" y="105" width="86" height="61" rx="3" fill="rgb(172,210,238)"/>
+<text x="593" y="137" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#111827">23.46%</text>
+<text x="233" y="377" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#374151">80</text>
+<text x="323" y="377" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#374151">90</text>
+<text x="413" y="377" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#374151">100</text>
+<text x="503" y="377" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#374151">110</text>
+<text x="593" y="377" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="400" fill="#374151">120</text>
+<text x="370" y="80" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="400" fill="#374151">Strike</text>
+<text x="65" y="250" transform="rotate(-90 65 250)" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#374151">Time to expiry (years)</text>
+<text x="420" y="430" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" font-weight="400" fill="#374151">Implied volatility (%)</text>
+</svg>

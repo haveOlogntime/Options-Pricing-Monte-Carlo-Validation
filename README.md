@@ -1,97 +1,68 @@
 # Options Pricing and Hedging Lab
 
-A Python project for studying European option prices and Monte Carlo estimation under the Black–Scholes model. The current implementation compares simulation estimators with the analytical price and records how estimates and uncertainty change with the number of simulated paths.
+A reproducible Python research project for European option pricing, Monte Carlo estimation, implied-volatility analysis and discrete delta hedging under geometric Brownian motion. The experiments compare numerical estimates with analytical prices, recover volatility from option premiums, and measure how discrete rebalancing and transaction costs affect hedge outcomes.
 
-## Implemented
+## What's implemented
 
-- Black–Scholes prices for European calls and puts, assuming no dividends.
-- Delta, Gamma, Vega and Theta.
-- Monte Carlo pricing with plain sampling, antithetic variates and a control variate.
-- Estimated standard errors and approximate 95% confidence intervals.
-- Reproducible experiments, CSV output, convergence plots and unit tests.
+- Black–Scholes prices for European calls and puts, including continuous dividend yield and deterministic limiting cases.
+- Analytic Delta, Gamma, Vega, Theta and Rho.
+- Plain Monte Carlo, antithetic variates and a discounted-stock control variate, with standard errors and approximate 95% confidence intervals.
+- Bracketed implied-volatility inversion and a surface builder for quotes across strikes and expiries.
+- Discrete self-financing delta-hedging simulation with configurable rebalancing frequency, path drift, random seed and proportional transaction costs.
+- CSV result tables, SVG figures and automated tests.
 
-The repository currently focuses on pricing and estimator diagnostics. A discrete-time delta-hedging simulation, implied-volatility solver and volatility-surface analysis are not implemented yet.
+## Model and conventions
 
-## Model
+The underlying follows geometric Brownian motion,
 
-The underlying follows risk-neutral geometric Brownian motion,
+    dS_t = (mu - q) S_t dt + sigma S_t dW_t,
 
-\[
-dS_t = rS_t\,dt + \sigma S_t\,dW_t,
-\]
+where q is a continuous dividend yield and mu = r for risk-neutral simulations. Black–Scholes pricing discounts risk-neutral European payoffs at the continuously compounded rate r. Rates, volatility and time are annualized; volatility is entered as a decimal.
 
-with constant interest rate \(r\), volatility \(\sigma\), and no dividends. The option is European, so its value is the discounted risk-neutral expectation of its terminal payoff.
+The Monte Carlo control variate is the discounted terminal stock price, with expectation S0 exp(-qT). For antithetic sampling, uncertainty is estimated from independent pair averages, not individual correlated payoffs. Confidence intervals use a normal approximation.
 
-The implementation uses the analytical Black–Scholes price as a benchmark. The Monte Carlo estimators are:
+The hedge simulator starts with the Black–Scholes premium and trades the underlying to match option delta. Cash accrues at r, dividend income on the stock position is credited to cash, and trading costs are charged on traded notional. Terminal hedging error is defined as **replicating portfolio value minus option payoff**. Positive error is a surplus; negative error is a shortfall. By default, paths are generated with risk-neutral drift. A different stock drift can be supplied to examine hedging away from that measure.
 
-- **Plain sampling:** averages discounted terminal payoffs.
-- **Antithetic variates:** pairs draws \(Z\) and \(-Z\) and averages each pair's payoff.
-- **Control variate:** adjusts the discounted payoff using the discounted terminal stock price, whose expectation is \(S_0\) under this model.
+## Install
 
-For antithetic sampling, the reported standard error is calculated from the pair averages. Confidence intervals use a normal approximation. The control-variate coefficient is estimated from the simulated sample.
+Python 3.10 or newer is required.
 
-## Baseline experiment
+    python3 -m venv .venv
+    source .venv/bin/activate
+    python -m pip install -e ".[dev]"
 
-The runner uses an at-the-money European call with these inputs:
+Alternatively, install the dependencies from requirements.txt with pip.
 
-| Parameter | Value |
-| --- | ---: |
-| Initial stock price | 100 |
-| Strike | 100 |
-| Time to expiry | 1 year |
-| Risk-free rate | 3% |
-| Volatility | 25% |
-| Monte Carlo paths | 100,000 |
+## Run the experiments
 
-The analytical Black–Scholes price is approximately **11.348477**. With the fixed seed in the script, the Monte Carlo comparison is:
+    python -m options_lab
 
-| Estimator | Price estimate | Estimated standard error | Absolute error |
-| --- | ---: | ---: | ---: |
-| Plain | 11.375566 | 0.056717 | 0.027089 |
-| Antithetic variates | 11.338172 | 0.043592 | 0.010305 |
-| Control variate | 11.373839 | 0.022965 | 0.025362 |
+To use a different output directory, random seed or hedge simulation size:
 
-These figures describe one run, not a general ranking of the estimators. The convergence experiment also uses one seed per path count, so absolute error need not decrease monotonically. Repeated independent runs are needed for a more reliable comparison of estimator variance.
+    python -m options_lab --output-dir results --seed 20261025 --hedge-paths 5000
 
-## Setup
+Run the tests with:
 
-Requires Python 3.10 or later.
+    python -m pytest -q
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
-```
+## Baseline pricing example
 
-On Windows, activate the environment with:
-
-```powershell
-.venv\Scripts\Activate.ps1
-```
-
-## Run
-
-Generate the CSV files and SVG plots:
-
-```bash
-python run_experiments.py
-```
-
-Run the test suite:
-
-```bash
-python -m pytest -q
-```
+For an at-the-money European call with S0 = 100, K = 100, T = 1, r = 3%, sigma = 25%, and no dividends, the analytical Black–Scholes value is approximately **11.348477**. The experiment runner compares three estimators using a fixed seed and 100,000 simulated terminal stock values.
 
 ## Results
 
 - [Monte Carlo estimator comparison](results/monte_carlo_comparison.csv)
-- [Convergence experiment data](results/mc_convergence.csv)
-- [Absolute pricing error by path count](results/mc_absolute_error.svg)
-- [Estimated standard error by path count](results/mc_standard_error.svg)
+- [Monte Carlo convergence experiment](results/mc_convergence.csv)
+- [Implied-volatility surface data](results/implied_volatility_surface.csv)
+- [Delta-hedging summary](results/delta_hedging_summary.csv)
+- [Monte Carlo absolute pricing error](results/mc_absolute_error.svg)
+- [Monte Carlo estimated standard error](results/mc_standard_error.svg)
+- [Implied-volatility surface](results/implied_volatility_surface.svg)
+- [Hedging RMSE vs rebalancing frequency](results/delta_hedging_rmse.svg)
+- [Terminal hedging-error ranges](results/delta_hedging_error_distribution.svg)
 
-Running the experiment script overwrites these result files.
+The volatility-surface experiment uses a deterministic synthetic option chain to test the inversion workflow. It is not real market data. The Monte Carlo convergence plot uses one seed per path budget, so absolute error can fluctuate rather than decrease monotonically. These experiments are for studying model behaviour, not evidence of a trading strategy's profitability.
 
 ## Assumptions and limitations
 
-The model assumes constant volatility and interest rates, risk-neutral geometric Brownian motion, European exercise and no dividends. It does not use market data or include calibration, early exercise, stochastic volatility, transaction costs or a hedging simulation. The results are for numerical study and are not a trading strategy.
+The models assume European exercise and constant volatility and rates. The lab does not include market-data ingestion, calibration to a live option chain, early-exercise pricing, stochastic volatility, jumps, market microstructure, or a production execution model. The implied-volatility surface builder accepts quotes from a DataFrame or iterable of mappings; external quotes should be checked for stale prices, bid/ask quality and arbitrage consistency before interpretation.
