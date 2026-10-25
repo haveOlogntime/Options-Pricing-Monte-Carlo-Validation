@@ -158,6 +158,11 @@ def mc_price(
     if method == "antithetic":
         if n_paths % 2:
             raise ValueError("n_paths must be even for antithetic variates")
+        if n_paths < 4:
+            raise ValueError(
+                "n_paths must be at least 4 to estimate the standard error "
+                "from antithetic pairs"
+            )
 
         z = rng.standard_normal(n_paths // 2)
         x1, _ = _payoffs(S0, K, T, r, sigma, z, option_type)
