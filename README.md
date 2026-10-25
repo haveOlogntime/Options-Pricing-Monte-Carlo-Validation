@@ -45,6 +45,19 @@ The example uses an at-the-money European call with:
 
 The Black-Scholes call price is approximately `11.348477`.
 
+## Results from the Day 1 run
+
+The CSV files contain the estimator outputs, estimated standard errors and confidence intervals:
+
+- [Monte Carlo comparison](results/monte_carlo_comparison.csv)
+- [Convergence experiment data](results/mc_convergence.csv)
+
+The plots below show one random seed per path count. They're useful for inspecting the behaviour, but one run isn't enough to rank methods reliably.
+
+![Monte Carlo absolute error](results/mc_absolute_error.svg)
+
+![Monte Carlo estimated standard error](results/mc_standard_error.svg)
+
 ## Methods
 
 Plain Monte Carlo averages discounted option payoffs from simulated terminal stock prices.
