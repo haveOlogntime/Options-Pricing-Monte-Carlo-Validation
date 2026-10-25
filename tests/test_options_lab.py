@@ -41,3 +41,8 @@ def test_monte_carlo_result_is_repeatable():
 def test_antithetic_needs_even_number_of_paths():
     with pytest.raises(ValueError):
         mc_price(S0, K, T, r, sigma, 101, "call", "antithetic", seed=1)
+
+
+def test_antithetic_needs_at_least_two_pairs_for_standard_error():
+    with pytest.raises(ValueError, match="at least 4"):
+        mc_price(S0, K, T, r, sigma, 2, "call", "antithetic", seed=1)
